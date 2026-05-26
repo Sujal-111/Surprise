@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Princess!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Sacramento&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffeef2;
+            background-image: radial-gradient(#ffccd5 1px, transparent 1px), radial-gradient(#ffccd5 1px, #ffeef2 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            margin: 0;
+            padding: 15px; /* Added padding to prevent edges touching screen on mobile */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 30px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2), inset 0 0 20px rgba(255, 240, 243, 0.6);
+            border: 4px solid #fff;
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Screen States */
+        .screen { display: none; }
+        .active { display: block; }
+        
+        .flex-screen {
+            display: none;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            flex-direction: column; /* Default stack on mobile */
+        }
+        .flex-screen.active { display: flex; }
+
+        /* Typography & Buttons */
+        h1 { color: #ff4d6d; font-family: 'Poppins', sans-serif; font-weight: 700; letter-spacing: -0.5px; font-size: 1.8rem; }
+        h2 { font-family: 'Sacramento', cursive; font-size: 3.5rem; color: #ff4d6d; margin: 10px 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
+        p { color: #5a5a5a; font-size: 1.05rem; line-height: 1.6; }
+        
+        button {
+            background: linear-gradient(135deg, #ff758f 0%, #ff4d6d 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 8px;
+            width: auto;
+        }
+        button:hover { 
+            background: linear-gradient(135deg, #ff4d6d 0%, #c9184a 100%); 
+            transform: translateY(-3px) scale(1.03); 
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.6);
+        }
+
+        /* Sticker Container Styling */
+        .sticker-img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0px 8px 12px rgba(255, 182, 193, 0.6));
+        }
+
+        .speech-bubble {
+            background: #fff0f3;
+            border: 2px solid #ffb3c1;
+            padding: 15px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            color: #ff4d6d;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(255, 179, 193, 0.2);
+            font-size: 1rem;
+        }
+        
+        input[type="password"] {
+            padding: 14px;
+            width: 100%;
+            max-width: 240px;
+            border: 2.5px solid #ffb3c1;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
+            color: #ff4d6d;
+        }
+        input[type="password"]:focus {
+            border-color: #ff4d6d;
+            box-shadow: 0 0 10px rgba(255, 77, 109, 0.25);
+        }
+
+        /* Grid for Gifts */
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .gift-card {
+            background: linear-gradient(145deg, #ffffff, #fff5f7);
+            padding: 20px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 2px dashed #ff758f;
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.3);
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .gift-card:hover { 
+            transform: translateY(-5px); 
+            background: linear-gradient(145deg, #fff5f7, #ffe3e8); 
+            border-style: solid;
+            border-color: #ff4d6d;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.25);
+        }
+        .gift-icon { font-size: 2.8rem; margin-bottom: 5px; transition: transform 0.3s ease; }
+        .gift-card:hover .gift-icon { transform: scale(1.1) rotate(5deg); }
+        .gift-card h3 { margin: 5px 0 0 0; color: #ff4d6d; font-size: 1.05rem; }
+
+        /* Modal Popups */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 238, 242, 0.9);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 10px;
+        }
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 24px;
+            max-width: 520px;
+            width: 95%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(255, 77, 109, 0.25);
+            border: 3px solid #ffe3e8;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #ff758f;
+            transition: color 0.2s;
+            z-index: 10;
+        }
+        .close-btn:hover { color: #c9184a; }
+
+        /* Premium Couple Scrapbook Photo Grid Styling */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+            padding: 10px 5px;
+        }
+        
+        .photo-frame {
+            background: #ffffff;
+            padding: 10px 10px 35px 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+            border-radius: 2px;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            background-image: linear-gradient(135deg, #fff 0%, #fffefe 100%);
+        }
+
+        /* Washi Sticky Tape Art Element on top of frames */
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 18px;
+            background-color: rgba(255, 182, 193, 0.7);
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,0.3) 5px, rgba(255,255,255,0.3) 10px);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            z-index: 5;
+        }
+
+        /* Messy scattered organic placement */
+        .photo-frame:nth-child(3n+1) { transform: rotate(-3deg); }
+        .photo-frame:nth-child(3n+2) { transform: rotate(2deg); }
+        .photo-frame:nth-child(3n+3) { transform: rotate(-1deg); }
+
+        .photo-frame:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 0 12px 25px rgba(255, 77, 109, 0.25);
+            z-index: 10;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border: 1px solid #f0f0f0;
+        }
+
+        .photo-caption {
+            font-family: 'Sacramento', cursive;
+            font-size: 1.5rem;
+            color: #4a4a4a;
+            margin-top: 10px;
+            font-weight: bold;
+            line-height: 1;
+            text-align: center;
+            word-break: break-word;
+        }
+        .photo-frame:hover .photo-caption { color: #ff4d6d; }
+
+        /* Special Animations */
+        .angry { animation: shake 0.5s; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+
+        /* ================= MOBILE MEDIA QUERIES ================= */
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { padding: 30px 15px; border-radius: 20px; }
+            
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 2.6rem; }
+            p { font-size: 0.95rem; }
+            
+            /* Make gift cards take full width or remain compact grids */
+            .gift-grid { gap: 12px; margin-top: 20px; }
+            .gift-card { padding: 15px 10px; border-radius: 15px; }
+            .gift-icon { font-size: 2.3rem; }
+            .gift-card h3 { font-size: 0.95rem; }
+
+            /* CRITICAL: Convert Polaroid Photo Grid to 1 Column so they look big and gorgeous on mobile phones */
+            .photo-grid { grid-template-columns: 1fr; gap: 30px; padding: 15px 20px; }
+            .photo-frame { padding: 12px 12px 40px 12px; }
+            .photo-caption { font-size: 1.8rem; margin-top: 12px; }
+            .photo-frame::before { width: 80px; height: 20px; top: -10px; }
+
+            /* Desktop side-by-side flex setups become column stacks */
+            .flex-screen { flex-direction: column; }
+            
+            button { width: 100%; max-width: 280px; padding: 12px 20px; font-size: 0.95rem; margin: 6px 0; }
+            
+            .modal-content { padding: 20px 15px; border-radius: 20px; }
+            .modal-content h2 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div id="screen1" class="flex-screen active">
+        <div style="max-width: 1000px; padding: 10px; width: 100%;">
+            <img id="teddySticker" class="sticker-img" style="width: 100%; max-width: 260px; height: auto;" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGI5a2RsbDZvZm9lb2dia3hqYmJuMG1sZmRteXR1bTIwOHI3bGE2dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/SomQKXQltM5pRur1HY/giphy.gif" alt="Cute Teddy Waving">
+            <div id="teddySpeech" class="speech-bubble">Hey Shreyuu password guess kar!</div>
+        </div>
+        <div style="padding: 10px; width: 100%;">
+            <input type="password" id="passwordInput" placeholder="Enter Code Here..."><br><br>
+            <button onclick="checkPassword()">Unlock 💖</button>
+        </div>
+    </div>
+
+    <div id="screen2" class="screen">
+        <img class="sticker-img" style="width: 100%; max-width: 300px; height: auto;" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjljdzl5NWprdWdwNDRsbmJjNWNyY2hhYTNuZzY1cHhyMzh4aTRudyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yWku98eNsMSZOEEWnC/giphy.gif" alt="Happy Birthday Celebration">
+        <h2>Happy Birthday Princess! 👑</h2>
+        <p style="font-size: 1.2rem; font-weight: 600; color: #ff4d6d;">Maja kade kahi ahe tuja sathi baghaych ahe? 😍</p>
+        <button onclick="goToGifts()">Haan Bilkul😍!</button>
+        <button onclick="showAngryDuck()" style="background: #6c757d; box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);">Nahi</button>
+    </div>
+
+    <div id="screen3" class="screen">
+        <img class="sticker-img" style="width: 100%; max-width: 280px; height: auto;" src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWh0emVwNmZnYXE4dGJ0c3VzcG10bjVwOHh2bDJ1MG53Z21zNWJ6OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/OHRF8LZis06OiPDJby/giphy.gif" alt="Angry Duck Knife">
+        <h1 style="color: #d90429; font-size: 2.5rem; margin-top: 15px;">HOW DARE YOU!!!</h1>
+        <p style="font-weight: 600;">Tumi hya suprise la nahi nahi manu shakt😤</p>
+        <button onclick="backToQuestion()">Thike karte accept🥰!</button>
+    </div>
+
+    <div id="screen4" class="screen">
+        <h1>✨ Tumche Birthday Gifts Mam ✨</h1>
+        <p style="font-weight: 600; color: #ff758f; margin-bottom: 10px;">Ek Ek karun open kara madamji🥰</p>
+        
+        <div class="gift-grid">
+            <div class="gift-card" onclick="openModal('letterModal')">
+                <div class="gift-icon">✉️</div>
+                <h3>A Special Letter</h3>
+            </div>
+            <div class="gift-card" onclick="openModal('flowerModal')">
+                <div class="gift-icon">🌹</div>
+                <h3>Flowers For You</h3>
+            </div>
+            <div class="gift-card" onclick="openModal('cameraModal')">
+                <div class="gift-icon">📸</div>
+                <h3>Our Best Moments</h3>
+            </div>
+            <div class="gift-card" onclick="openModal('musicModal')">
+                <div class="gift-icon">🎵</div>
+                <h3>Special Music</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="letterModal" class="modal" onclick="closeModal(this)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="close-btn" onclick="closeModal(document.getElementById('letterModal'))">&times;</span>
+        <img class="sticker-img" style="width: 100%; max-width: 200px; height: auto;" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHdqMm1wMmhoYmtydWlrazVqNDg2N3I2OWpsM3N6cm9uOWxjaHV0NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yUThmGwfT1hrORu84T/giphy.gif" alt="Hearts Bear">
+        <h2 style="font-size: 2.4rem; margin-bottom: 10px;">My Dearest Best Friend🫶,</h2>
+        <div style="text-align: left; line-height: 1.6; color: #3d3d3d; font-size: 1rem;">
+            <p>Happy Birthday to the most beautiful girl in the universe🥳! I hope tula avadla asle 👉👈 .</p>
+            <p>He vachtana jasa smile karat ahes tasich smile hamesha thevat ja pan ufsos me javal nahi smile baghayla ter te mi miss kela🥹. Tuji hich smile baghun mala motivation bhette ki tuja sathi khup mehnat karavi ani tula kontya pan gosti chi kami nahi feel zali paheje🥰.</p>
+            <p>ajun ek majhi favorite gosta tuja baddal , <b>Tula Manvaych 😍</b>— Me ata pan shikatch ahe ki tula kasa manvaych😭 Pan tari me manvun gheto tula😎. Btw mala mahit nahi love letter kase aste ha maja first love letter ahe je me tuja sathi lihla ahe😅 SO me bolun deto ata I Love You Shreyuu🩷 (My Bestie🫶, My Partner😎, My Everything 🌎) </p>
+            <p>Thank you for everything❤️. I love you my khatta rasgulla 🫶. Stay Happy and all the best future doctor🥰.</p>
+        </div>
+    </div>
+</div>
+
+<div id="flowerModal" class="modal" onclick="closeModal(this)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="close-btn" onclick="closeModal(document.getElementById('flowerModal'))">&times;</span>
+        <img class="sticker-img" style="width: 100%; max-width: 240px; height: auto;" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzYzOGZjN2ZxeWNweTJ0MzZxbTl0dWEwaWpnYzBrbzMwem02eGlvdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dFYPRY6u3YnajI1jP3/giphy.gif" alt="Teddy and Huge Flowers">
+        <h3 style="color: #ff4d6d; font-size: 1.5rem; margin-top: 10px;">This is for you KR!</h3>
+        <p style="font-weight: 600;">Accha laga toh bas I Love You bol dena woh bhi 3 baar!</p>
+    </div>
+</div>
+
+<div id="cameraModal" class="modal" onclick="closeModal(this)">
+    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 680px; background-color: #fffafb;">
+        <span class="close-btn" onclick="closeModal(document.getElementById('cameraModal'))">&times;</span>
+        <h2 style="font-size: 2.6rem; margin-bottom: 0;">Our Best Moments 📸</h2>
+        <p style="color: #ff758f; font-weight: 600; margin-top: 5px;">Our beautiful journey together, Princess!</p>
+        
+        <div class="photo-grid">
+            <div class="photo-frame">
+                <img src="photo1.jpg" alt="Moment 1">
+                <div class="photo-caption">Where it started ❤️</div>
+            </div>
+            <div class="photo-frame">
+                <img src="photo2.jpg" alt="Moment 2">
+                <div class="photo-caption">Your cute smile ✨</div>
+            </div>
+            <div class="photo-frame">
+                <img src="photo3.jpg" alt="Moment 3">
+                <div class="photo-caption">Our Happiest day 💑</div>
+            </div>
+            <div class="photo-frame">
+                <img src="photo4.jpg" alt="Moment 4">
+                <div class="photo-caption">My favorite view 👑</div>
+            </div>
+            <div class="photo-frame">
+                <img src="photo5.jpg" alt="Moment 5">
+                <div class="photo-caption">Us🥰</div>
+            </div>
+            <div class="photo-frame">
+                <img src="photo6.jpg" alt="Moment 6">
+                <div class="photo-caption">Forever to go ♾️</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="musicModal" class="modal" onclick="closeModal(this)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="close-btn" onclick="closeModal(document.getElementById('musicModal'))">&times;</span>
+        <img class="sticker-img" style="width: 100%; max-width: 240px; height: auto; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2));" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYW8zZ2N6YnRtNHJ3bGJuc21kZDhuMnM1amc0ZmxiZTFpZGtpczd2eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jenK0VnecaDLoPgMGX/giphy.gif" alt="Cat Batman">
+        <h3 style="color: #ff4d6d; margin-top: 10px; font-size: 1.3rem;">I am Batman... protector of Princess...</h3>
+        <p style="font-style: italic; color: #ff4d6d; font-weight: bold; font-size: 1.1rem; background: #fff0f3; padding: 12px; border-radius: 12px; border: 1px dashed #ffb3c1; margin-top: 10px;">
+            " Yaha koi gana nahi hai me bas kehna chata tha ki Batman apko bohot miss kar raha hai🥺"
+        </p>
+    </div>
+</div>
+
+<script>
+    function checkPassword() {
+        const passwordInput = document.getElementById('passwordInput').value;
+        const teddySticker = document.getElementById('teddySticker');
+        const teddySpeech = document.getElementById('teddySpeech');
+
+        if (passwordInput === '0502') {
+            teddySticker.classList.remove('angry');
+            teddySticker.src = "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGI5a2RsbDZvZm9lb2dia3hqYmJuMG1sZmRteXR1bTIwOHI3bGE2dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/SomQKXQltM5pRur1HY/giphy.gif";
+            
+            document.getElementById('screen1').classList.remove('active');
+            document.getElementById('screen2').classList.add('active');
+        } else {
+            teddySticker.src = "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3YnRta2N3d2kwcnkxbmFxMTkxanpvdnpxY3lndWY5bTJ1dnZjaW03ZCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/faQy8PZigbeTewmAiq/giphy.gif";
+            teddySticker.classList.add('angry');
+            teddySpeech.innerText = "Maja mobile ch password ahe! 😤";
+            teddySpeech.style.color = "red";
+            
+            setTimeout(() => {
+                teddySticker.classList.remove('angry');
+            }, 500);
+        }
+    }
+
+    function goToGifts() {
+        document.getElementById('screen2').classList.remove('active');
+        document.getElementById('screen4').classList.add('active');
+    }
+
+    function showAngryDuck() {
+        document.getElementById('screen2').classList.remove('active');
+        document.getElementById('screen3').classList.add('active');
+    }
+
+    function backToQuestion() {
+        document.getElementById('screen3').classList.remove('active');
+        document.getElementById('screen2').classList.add('active');
+    }
+
+    function openModal(id) {
+        document.getElementById(id).style.display = 'flex';
+    }
+
+    function closeModal(modalElement) {
+        modalElement.style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
