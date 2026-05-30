@@ -14,7 +14,7 @@
             background-size: 40px 40px;
             background-position: 0 0, 20px 20px;
             margin: 0;
-            padding: 15px; /* Added padding to prevent edges touching screen on mobile */
+            padding: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -49,7 +49,7 @@
             justify-content: space-around;
             align-items: center;
             flex-wrap: wrap;
-            flex-direction: column; /* Default stack on mobile */
+            flex-direction: column;
         }
         .flex-screen.active { display: flex; }
 
@@ -181,6 +181,16 @@
         }
         .close-btn:hover { color: #c9184a; }
 
+        /* Slow Smooth Fade-In Animation for final flower screen */
+        .slow-fade-in {
+            animation: slowFade 2s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes slowFade {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
         /* Premium Couple Scrapbook Photo Grid Styling */
         .photo-grid {
             display: grid;
@@ -204,7 +214,6 @@
             background-image: linear-gradient(135deg, #fff 0%, #fffefe 100%);
         }
 
-        /* Washi Sticky Tape Art Element on top of frames */
         .photo-frame::before {
             content: '';
             position: absolute;
@@ -219,7 +228,6 @@
             z-index: 5;
         }
 
-        /* Messy scattered organic placement */
         .photo-frame:nth-child(3n+1) { transform: rotate(-3deg); }
         .photo-frame:nth-child(3n+2) { transform: rotate(2deg); }
         .photo-frame:nth-child(3n+3) { transform: rotate(-1deg); }
@@ -257,32 +265,22 @@
             40%, 80% { transform: translateX(10px); }
         }
 
-        /* ================= MOBILE MEDIA QUERIES ================= */
         @media (max-width: 600px) {
             body { padding: 10px; }
             .container { padding: 30px 15px; border-radius: 20px; }
-            
             h1 { font-size: 1.5rem; }
             h2 { font-size: 2.6rem; }
             p { font-size: 0.95rem; }
-            
-            /* Make gift cards take full width or remain compact grids */
             .gift-grid { gap: 12px; margin-top: 20px; }
             .gift-card { padding: 15px 10px; border-radius: 15px; }
             .gift-icon { font-size: 2.3rem; }
             .gift-card h3 { font-size: 0.95rem; }
-
-            /* CRITICAL: Convert Polaroid Photo Grid to 1 Column so they look big and gorgeous on mobile phones */
             .photo-grid { grid-template-columns: 1fr; gap: 30px; padding: 15px 20px; }
             .photo-frame { padding: 12px 12px 40px 12px; }
             .photo-caption { font-size: 1.8rem; margin-top: 12px; }
             .photo-frame::before { width: 80px; height: 20px; top: -10px; }
-
-            /* Desktop side-by-side flex setups become column stacks */
             .flex-screen { flex-direction: column; }
-            
             button { width: 100%; max-width: 280px; padding: 12px 20px; font-size: 0.95rem; margin: 6px 0; }
-            
             .modal-content { padding: 20px 15px; border-radius: 20px; }
             .modal-content h2 { font-size: 2.2rem; }
         }
@@ -304,7 +302,7 @@
     </div>
 
     <div id="screen2" class="screen">
-        <img class="sticker-img" style="width: 100%; max-width: 300px; height: auto;" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjljdzl5NWprdWdwNDRsbmJjNWNyY2hhYTNuZzY1cHhyMzh4aTRudyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yWku98eNsMSZOEEWnC/giphy.gif" alt="Happy Birthday Celebration">
+        <img class="sticker-img" style="width: 100%; max-width: 500px; height: auto;" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjljdzl5NWprdWdwNDRsbmJjNWNyY2hhYTNuZzY1cHhyMzh4aTRudyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yWku98eNsMSZOEEWnC/giphy.gif" alt="Happy Birthday Celebration">
         <h2>Happy Birthday Princess! 👑</h2>
         <p style="font-size: 1.2rem; font-weight: 600; color: #ff4d6d;">Maja kade kahi ahe tuja sathi baghaych ahe? 😍</p>
         <button onclick="goToGifts()">Haan Bilkul😍!</button>
@@ -328,7 +326,7 @@
                 <h3>A Special Letter</h3>
             </div>
             <div class="gift-card" onclick="openModal('flowerModal')">
-                <div class="gift-icon">🌹</div>
+                <div class="gift-icon">💐</div>
                 <h3>Flowers For You</h3>
             </div>
             <div class="gift-card" onclick="openModal('cameraModal')">
@@ -352,8 +350,8 @@
         <div style="text-align: left; line-height: 1.6; color: #3d3d3d; font-size: 1rem;">
             <p>Happy Birthday to the most beautiful girl in the universe🥳! I hope tula avadla asle 👉👈 .</p>
             <p>He vachtana jasa smile karat ahes tasich smile hamesha thevat ja pan ufsos me javal nahi smile baghayla ter te mi miss kela🥹. Tuji hich smile baghun mala motivation bhette ki tuja sathi khup mehnat karavi ani tula kontya pan gosti chi kami nahi feel zali paheje🥰.</p>
-            <p>ajun ek majhi favorite gosta tuja baddal , <b>Tula Manvaych 😍</b>— Me ata pan shikatch ahe ki tula kasa manvaych😭 Pan tari me manvun gheto tula😎. Btw mala mahit nahi love letter kase aste ha maja first love letter ahe je me tuja sathi lihla ahe😅 SO me bolun deto ata I Love You Shreyuu🩷 (My Bestie🫶, My Partner😎, My Everything 🌎) </p>
-            <p>Thank you for everything❤️. I love you my khatta rasgulla 🫶. Stay Happy and all the best future doctor🥰.</p>
+            <p>ajun ek majhi favorite gosta tuja baddal , <b>Tula Manvaych 😍</b>— Me ata pan shikatch ahe ki tula kasa manvaych😭 Pan tari me manvun gheto tula last madhe😎. By the way mala mahit nahi love letter kase aste ha maja first love letter ahe je me tuja sathi lihla ahe😅 SO me bolun deto ata I Love You Shreyuu🩷 (My Bestie🫶, My Partner😎, My Everything 🌎) </p>
+            <p>Thank you for everything❤️. I love you my khatta rasgulla 🫶. Stay Happy and all the best future doctor🥰. Date: 30/05/2026</p>
         </div>
     </div>
 </div>
@@ -361,9 +359,20 @@
 <div id="flowerModal" class="modal" onclick="closeModal(this)">
     <div class="modal-content" onclick="event.stopPropagation()">
         <span class="close-btn" onclick="closeModal(document.getElementById('flowerModal'))">&times;</span>
-        <img class="sticker-img" style="width: 100%; max-width: 240px; height: auto;" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzYzOGZjN2ZxeWNweTJ0MzZxbTl0dWEwaWpnYzBrbzMwem02eGlvdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dFYPRY6u3YnajI1jP3/giphy.gif" alt="Teddy and Huge Flowers">
-        <h3 style="color: #ff4d6d; font-size: 1.5rem; margin-top: 10px;">This is for you KR!</h3>
-        <p style="font-weight: 600;">Accha laga toh bas I Love You bol dena woh bhi 3 baar!</p>
+        
+        <div id="cakeInteractiveStage">
+            <img id="cakeSticker" class="sticker-img" style="width: 100%; max-width: 240px; height: auto;" src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3M2xld216b2dsangzOHB1NDhlN3QwcXR3Z3NsZ3hpMThqd21xeTR1cSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/gwfCh0wxc6aP0B2y0J/giphy.gif" alt="Fired Candle Cake">
+            <h3 id="cakeText" style="color: #ff4d6d; font-size: 1.5rem; margin-top: 10px;">Arey he tar birthday cake ahe🎂😁</h3>
+            
+            <button id="blowBtn1" onclick="firstBlow()">Blow Candle 🌬️</button>
+            <button id="blowBtn2" onclick="secondBlow()" style="display: none;">Blow Again! 😤</button>
+        </div>
+
+        <div id="flowerResultStage" class="slow-fade-in" style="display: none;">
+            <img class="sticker-img" style="width: 100%; max-width: 240px; height: auto;" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzYzOGZjN2ZxeWNweTJ0MzZxbTl0dWEwaWpnYzBrbzMwem02eGlvdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dFYPRY6u3YnajI1jP3/giphy.gif" alt="Teddy and Huge Flowers">
+            <h3 style="color: #ff4d6d; font-size: 1.6rem; margin-top: 10px;">This is for you KR! 🌹</h3>
+            <p style="font-weight: 600;">Accha laga toh bas I Love You bol dena woh bhi 3 baar!</p>
+        </div>
     </div>
 </div>
 
@@ -414,6 +423,52 @@
 </div>
 
 <script>
+    // First interaction: Fire gets bigger!
+    function firstBlow() {
+        const cakeSticker = document.getElementById('cakeSticker');
+        const cakeText = document.getElementById('cakeText');
+        const blowBtn1 = document.getElementById('blowBtn1');
+        const blowBtn2 = document.getElementById('blowBtn2');
+
+        // Fire gets more! Swapping to a bigger fire/explosion gif
+        cakeSticker.src = "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3M2xld216b2dsangzOHB1NDhlN3QwcXR3Z3NsZ3hpMThqd21xeTR1cSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/Gfm3A9sm29bpkAzFAr/giphy.gif";
+        cakeText.innerText = "Arre nahi! aaaaag vaadli! wapas kar🥺";
+        cakeText.style.color = "#d90429";
+        
+        // Toggle the buttons smoothly
+        blowBtn1.style.display = "none";
+        blowBtn2.style.display = "inline-block";
+    }
+
+    // Second interaction: Candle turns off, triggers slow flower fade-in
+    function secondBlow() {
+        const cakeInteractiveStage = document.getElementById('cakeInteractiveStage');
+        const flowerResultStage = document.getElementById('flowerResultStage');
+
+        // Hide the cake gameplay section completely
+        cakeInteractiveStage.style.display = "none";
+        
+        // Show the flowers using our CSS slow-fade-in class layout
+        flowerResultStage.style.display = "block";
+    }
+
+    // Standard control state resets if modal closes
+    function resetCakeModal() {
+    document.getElementById('cakeInteractiveStage').style.display = "block";
+    document.getElementById('flowerResultStage').style.display = "none";
+    document.getElementById('blowBtn1').style.display = "inline-block";
+    document.getElementById('blowBtn2').style.display = "none";
+    
+    const cakeSticker = document.getElementById('cakeSticker');
+    const cakeText = document.getElementById('cakeText');
+    
+    // FIX: Changed this URL to match your initial HTML source exactly
+    cakeSticker.src = "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3M2xld216b2dsangzOHB1NDhlN3QwcXR3Z3NsZ3hpMThqd21xeTR1cSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/gwfCh0wxc6aP0B2y0J/giphy.gif";
+    
+    cakeText.innerText = "Arey he tar birthday cake ahe🎂😁";
+    cakeText.style.color = "#ff4d6d";
+}
+
     function checkPassword() {
         const passwordInput = document.getElementById('passwordInput').value;
         const teddySticker = document.getElementById('teddySticker');
@@ -458,6 +513,10 @@
 
     function closeModal(modalElement) {
         modalElement.style.display = 'none';
+        // Automatically clean up state if flower/cake pop-up is dismissed
+        if(modalElement.id === 'flowerModal') {
+            resetCakeModal();
+        }
     }
 </script>
 
